@@ -3,7 +3,12 @@ import { EditorPage } from '../../pages/EditorPage';
 import { ArticlePage } from '../../pages/ArticlePage';
 import { createArticle } from '../../utils/api-helper';
 import { generateArticle } from '../../utils/test-data-generator';
-import tokenData from '../../playwright/.auth/token.json';
+import fs from 'fs';
+import path from 'path';
+
+const tokenData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../../playwright/.auth/token.json'), 'utf-8')
+);
 
 test.describe('Edit Article', () => {
     test('should edit an existing article with valid data', async ({ page, request }) => {

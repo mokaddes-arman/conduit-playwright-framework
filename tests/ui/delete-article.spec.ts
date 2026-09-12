@@ -2,12 +2,16 @@ import { test, expect } from '@playwright/test';
 import { ArticlePage } from '../../pages/ArticlePage';
 import { createArticle } from '../../utils/api-helper';
 import { generateArticle } from '../../utils/test-data-generator';
-import tokenData from '../../playwright/.auth/token.json';
+import fs from 'fs';
+import path from 'path';
+
+const tokenData = JSON.parse(
+  fs.readFileSync(path.join(__dirname, '../../playwright/.auth/token.json'), 'utf-8')
+);
 
 test.describe('Delete Article', () => {
   test('should delete an existing article', async ({ page, request }) => {
     const articlePage = new ArticlePage(page);
-
     // precondition: create article via API
     const seedData = generateArticle();
     const created = await createArticle(request, tokenData.token, {
