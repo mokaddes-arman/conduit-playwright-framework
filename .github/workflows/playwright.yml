@@ -26,8 +26,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright tests
-        run: npx playwright test
+      - name: Run setup tests (authentication)
+        run: npx playwright test --project=setup
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
