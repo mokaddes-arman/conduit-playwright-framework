@@ -6,9 +6,15 @@ import { generateArticle } from '../../utils/test-data-generator';
 import fs from 'fs';
 import path from 'path';
 
-const tokenData = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '../../playwright/.auth/token.json'), 'utf-8')
-);
+let tokenData: any;
+
+test.beforeAll(async () => {
+  const tokenPath = path.join(__dirname, '../../playwright/.auth/token.json');
+  if (!fs.existsSync(tokenPath)) {
+    throw new Error(`Authentication token not found at ${tokenPath}. Run setup tests first.`);
+  }
+  tokenData = JSON.parse(fs.readFileSync(tokenPath, 'utf-8'));
+});
 
 test.describe('Edit Article', () => {
     test('should edit an existing article with valid data', async ({ page, request }) => {
